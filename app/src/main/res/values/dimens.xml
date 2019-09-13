@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="drag_icon_enlarged">5dp</dimen>
+</resources>

@@ -1,0 +1,95 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.riztech.dragdropfinal.MainActivity">
+
+    <LinearLayout
+        android:id="@+id/topLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:id="@+id/top_layout"
+            android:layout_width="fill_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:gravity="center"
+            android:orientation="vertical">
+
+
+
+            <FrameLayout
+                android:background="@color/white"
+                android:id="@+id/fmView"
+                android:focusable="true"
+                android:clickable="true"
+                android:elevation="9dp"
+                android:focusableInTouchMode="true"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:text="@string/draggable_button" />
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/top_middle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/gray"
+            android:gravity="center"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/top_right_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/brown"
+            android:gravity="center"
+            android:orientation="vertical" />
+
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/yellowLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/left_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorPrimary"
+            android:gravity="center"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/middle_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/green"
+            android:gravity="center"
+            android:orientation="vertical" />
+
+        <LinearLayout
+            android:id="@+id/right_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/colorAccent"
+            android:gravity="center"
+            android:orientation="vertical" />
+    </LinearLayout>
+
+
+</LinearLayout>

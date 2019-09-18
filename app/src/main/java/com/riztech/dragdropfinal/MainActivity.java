@@ -90,6 +90,8 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
     public boolean onDrag(View view, DragEvent event) {
         // Defines a variable to store the action type for the incoming event
         int action = event.getAction();
+
+        View draggedView;
         // Handles each of the expected events
         switch (action) {
             case DragEvent.ACTION_DRAG_STARTED:
@@ -122,19 +124,20 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
                 // Invalidates the view to force a redraw
                 view.invalidate();
 
-                View v = (View) event.getLocalState();
-                ViewGroup owner = (ViewGroup) v.getParent();
-                owner.removeView(v);//remove the dragged view
+                draggedView = (View) event.getLocalState();
+                ViewGroup owner = (ViewGroup) draggedView.getParent();
+                owner.removeView(draggedView);//remove the dragged view
                 LinearLayout container = (LinearLayout) view;//caste the view into LinearLayout as our drag acceptable layout is LinearLayout
-                container.addView(v);//Add the dragged view
-                v.setVisibility(View.VISIBLE);//finally set Visibility to VISIBLE
+                container.addView(draggedView);//Add the dragged view
+                draggedView.setVisibility(View.VISIBLE);//finally set Visibility to VISIBLE
 
 
                 // Returns true. DragEvent.getResult() will return true.
                 return true;
             case DragEvent.ACTION_DRAG_ENDED:
-                View v1 = (View) event.getLocalState();
-                v1.setVisibility(View.VISIBLE);
+                draggedView = (View) event.getLocalState();
+                if (draggedView.getVisibility() == View.INVISIBLE || draggedView.getVisibility() == View.GONE)
+                    draggedView.setVisibility(View.VISIBLE);
                 return true;
             default:
                 Log.e("DragDrop Example", "Unknown action type received by OnDragListener.");

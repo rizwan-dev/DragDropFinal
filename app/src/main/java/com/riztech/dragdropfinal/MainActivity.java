@@ -2,18 +2,16 @@ package com.riztech.dragdropfinal;
 
 import android.content.ClipData;
 import android.content.ClipDescription;
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.DragEvent;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.LinearLayout;
-import android.widget.Toast;
+import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -22,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
     private static final String TAG = MainActivity.class.getSimpleName();
     private FrameLayout fmView;
     private static final String FM_VIEW_TAG = "DRAG VIEW";
-
+    private int _xDelta, _yDelta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +41,7 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
     private void implementEvents() {
         //add or remove any view that you don't want to be dragged
         fmView.setOnLongClickListener(this);
+//        fmView.setOnTouchListener(new ChoiceTouchListener());
 
         //add or remove any layout view that you don't want to accept dragged view
         findViewById(R.id.top_layout).setOnDragListener(this);
@@ -69,9 +68,6 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
         String[] mimeTypes = {ClipDescription.MIMETYPE_TEXT_PLAIN};
 
         ClipData data = new ClipData(view.getTag().toString(), mimeTypes, item);
-
-        Drawable icon = getResources().getDrawable( R.drawable.shadow_drawable );
-
 
         // Instantiates the drag shadow builder.
         DragShadow shadowBuilder = new DragShadow(view);
@@ -108,15 +104,12 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
                 return false;
 
             case DragEvent.ACTION_DRAG_ENTERED:
-                // Applies a YELLOW or any color tint to the View, when the dragged view entered into drag acceptable view
-                // Return true; the return value is ignored.
 
                 return true;
             case DragEvent.ACTION_DRAG_LOCATION:
                 // Ignore the event
                 return true;
             case DragEvent.ACTION_DRAG_EXITED:
-
 
                 return true;
             case DragEvent.ACTION_DROP:
@@ -136,17 +129,13 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
                 container.addView(v);//Add the dragged view
                 v.setVisibility(View.VISIBLE);//finally set Visibility to VISIBLE
 
+
                 // Returns true. DragEvent.getResult() will return true.
                 return true;
             case DragEvent.ACTION_DRAG_ENDED:
-
-
-
-
-                // returns true; the value is ignored.
+                View v1 = (View) event.getLocalState();
+                v1.setVisibility(View.VISIBLE);
                 return true;
-
-            // An unknown action type was received.
             default:
                 Log.e("DragDrop Example", "Unknown action type received by OnDragListener.");
                 break;
@@ -155,6 +144,37 @@ public class MainActivity extends AppCompatActivity implements View.OnDragListen
     }
 
 
+    class ChoiceTouchListener implements View.OnTouchListener {
+
+
+        @Override
+        public boolean onTouch(View v, MotionEvent event) {
+            final int X = (int) event.getRawX();
+            final int Y = (int) event.getRawY();
+
+
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_DOWN:
+                   /* MyDragShadowBuilder myDragShadowBuilder = new MyDragShadowBuilder(v);
+                    v.startDrag(null, myDragShadowBuilder, null, 0);*/
+                    RelativeLayout.LayoutParams lParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                    _xDelta = X - lParams.leftMargin;
+                    _yDelta = Y - lParams.topMargin;
+                    break;
+                case MotionEvent.ACTION_MOVE:
+                    RelativeLayout.LayoutParams layoutParams = (RelativeLayout.LayoutParams) v.getLayoutParams();
+                    layoutParams.leftMargin = X - _xDelta;
+                    layoutParams.topMargin = Y - _yDelta;
+                    layoutParams.rightMargin = -250;
+                    layoutParams.bottomMargin = -250;
+                    v.setLayoutParams(layoutParams);
+                    break;
+
+            }
+
+            return false;
+        }
+    }
 
 
 }
